@@ -2,10 +2,8 @@ package net.buildbox.pluralsight.reflection.db;
 
 import org.hsqldb.server.Server;
 
-import java.sql.SQLException;
-
 public class LaunchDatabase {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         launch("--help");
         launch("--database.0", "file:target/mydb", "--dbname.0", "xdb");
 

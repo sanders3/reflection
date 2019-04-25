@@ -1,4 +1,4 @@
-package net.buildbox.pluralsight.reflection.util;
+package net.buildbox.pluralsight.reflection.util.fixture;
 
 import net.buildbox.pluralsight.reflection.annotation.Column;
 import net.buildbox.pluralsight.reflection.annotation.PrimaryKey;

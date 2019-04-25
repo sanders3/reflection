@@ -13,12 +13,12 @@ public class Metamodel<T> {
 
     private final Class<T> targetClass;
 
-    public Metamodel(Class<T> targetClass) {
+    private Metamodel(Class<T> targetClass) {
         this.targetClass = targetClass;
     }
 
-    public static <T> Metamodel of(Class<T> targetClass) {
-        return new Metamodel(targetClass);
+    public static <T> Metamodel<T> of(Class<T> targetClass) {
+        return new Metamodel<>(targetClass);
     }
 
     public String getTableName() {
@@ -29,7 +29,7 @@ public class Metamodel<T> {
         return Stream.of(targetClass.getDeclaredFields())
                 .filter(f -> f.isAnnotationPresent(PrimaryKey.class))
                 .findFirst()
-                .map(f -> new PrimaryKeyField(f))
+                .map(PrimaryKeyField::new)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "No primary key found on " + targetClass.getSimpleName()));
     }
@@ -37,7 +37,7 @@ public class Metamodel<T> {
     public List<ColumnField> getColumns() {
         return Stream.of(targetClass.getDeclaredFields())
                 .filter(f -> f.isAnnotationPresent(Column.class))
-                .map(f -> new ColumnField(f))
+                .map(ColumnField::new)
                 .collect(toList());
     }
 
@@ -58,13 +58,16 @@ public class Metamodel<T> {
             }
         }
 
-        @Override
-        public String toString() {
-            return "PrimaryKeyField{" + "field=" + field.getName() + '}';
-        }
-
         public Class<?> getType() {
             return field.getType();
+        }
+
+        @Override
+        public String toString() {
+            return "PrimaryKeyField{"
+                    + "name=" + getName()
+                    + ", type=" + getType()
+                    + '}';
         }
     }
 
@@ -91,7 +94,10 @@ public class Metamodel<T> {
 
         @Override
         public String toString() {
-            return "ColumnField{" + "field=" + field.getName() + '}';
+            return "ColumnField{"
+                    + "name=" + getName()
+                    + ", type=" + getType()
+                    + '}';
         }
     }
 }

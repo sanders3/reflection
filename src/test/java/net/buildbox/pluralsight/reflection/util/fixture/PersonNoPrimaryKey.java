@@ -1,24 +1,22 @@
-package net.buildbox.pluralsight.reflection.util;
+package net.buildbox.pluralsight.reflection.util.fixture;
 
 import net.buildbox.pluralsight.reflection.annotation.Column;
-import net.buildbox.pluralsight.reflection.annotation.PrimaryKey;
 
 @SuppressWarnings("unused")
-public class PersonWithNames {
+public class PersonNoPrimaryKey {
 
-    @PrimaryKey(name = "person_id")
     private long id;
 
-    @Column(name = "person_name")
+    @Column
     private String name;
 
-    @Column(name = "person_age")
+    @Column
     private int age;
 
-    public PersonWithNames() {
+    public PersonNoPrimaryKey() {
     }
 
-    public PersonWithNames(String name, int age) {
+    public PersonNoPrimaryKey(String name, int age) {
         this.name = name;
         this.age = age;
     }

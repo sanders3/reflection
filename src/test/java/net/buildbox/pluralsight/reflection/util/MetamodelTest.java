@@ -1,18 +1,14 @@
 package net.buildbox.pluralsight.reflection.util;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
+import net.buildbox.pluralsight.reflection.util.fixture.PersonNoPrimaryKey;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.List;
-
 public class MetamodelTest {
 
     @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    public final ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testNoPrimaryKey() {

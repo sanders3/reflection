@@ -3,6 +3,8 @@ package net.buildbox.pluralsight.reflection.persist;
 import static java.util.stream.Collectors.joining;
 
 import net.buildbox.pluralsight.reflection.util.Metamodel;
+import net.buildbox.pluralsight.reflection.util.Metamodel.ColumnField;
+import net.buildbox.pluralsight.reflection.util.Metamodel.PrimaryKeyField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +15,12 @@ public class EntityManagerImpl<T> implements EntityManager<T> {
     public void persist(T t) {
         final List<String> columns = new ArrayList<>();
 
-        final Metamodel metamodel = Metamodel.of(t.getClass());
-        final Metamodel.PrimaryKeyField primaryKeyField = metamodel.getPrimaryKey();
+        final Metamodel<T> metamodel = Metamodel.of(t.getClass());
+        final PrimaryKeyField primaryKeyField = metamodel.getPrimaryKey();
         columns.add(primaryKeyField.getName());
 
-        final List<Metamodel.ColumnField> columnFields = metamodel.getColumns();
-        for (Metamodel.ColumnField columnField : columnFields) {
+        final List<ColumnField> columnFields = metamodel.getColumns();
+        for (ColumnField columnField : columnFields) {
             columns.add(columnField.getName());
         }
 
@@ -27,15 +29,12 @@ public class EntityManagerImpl<T> implements EntityManager<T> {
 
     }
 
-    private String buildStatement(List<String> columns, Metamodel metamodel) {
-        final String names = columns.stream().collect(joining(", "));
+    private String buildStatement(List<String> columns, Metamodel<T> metamodel) {
+        final String names = String.join(", ", columns);
         final String placeholders = columns.stream().map(c -> "?").collect(joining(", "));
 
-        final StringBuilder statement = new StringBuilder();
-        return statement.append("INSERT INTO ").append(metamodel.getTableName())
-                .append(" (").append(names).append(")")
-                .append(" VALUES (").append(placeholders).append(")")
-                .toString();
+        return "INSERT INTO " + metamodel.getTableName() + " (" + names + ")"
+                + " VALUES (" + placeholders + ")";
     }
 
     @Override

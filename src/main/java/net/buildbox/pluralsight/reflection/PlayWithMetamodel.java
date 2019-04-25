@@ -9,8 +9,8 @@ import java.util.List;
 
 public class PlayWithMetamodel {
     public static void main(String ... args) {
-        Metamodel metamodel = Metamodel.of(Person.class);
-        Metamodel.PrimaryKeyField primaryKeyField = metamodel.getPrimaryKey();
+        Metamodel<Person> metamodel = Metamodel.of(Person.class);
+        PrimaryKeyField primaryKeyField = metamodel.getPrimaryKey();
         System.out.println("primary key field: " + primaryKeyField.getName()
                 + " with type " + primaryKeyField.getType());
 
